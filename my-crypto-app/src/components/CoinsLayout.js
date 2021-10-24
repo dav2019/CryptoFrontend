@@ -1,6 +1,6 @@
 import { Table } from 'react-bootstrap'
 
-const CryptoData = ({ image, cryptoName, symbol, price }) => {
+const CoinsLayout = ({ image, cryptoName, symbol, price }) => {
     return (
         <Table responsive>
             <tbody>
@@ -15,4 +15,4 @@ const CryptoData = ({ image, cryptoName, symbol, price }) => {
     )
 }
 
-export default CryptoData
+export default CoinsLayout
