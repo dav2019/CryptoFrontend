@@ -1,8 +1,11 @@
 import CoinsLayout from "./CoinsLayout";
+import { Spinner } from 'react-bootstrap'
 
 const Coins = ({ coins, loading }) => {
     if(loading) {
-        return <h2>Loading...</h2>;
+        return <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>;
     }
 
     return (
