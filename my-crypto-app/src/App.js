@@ -61,7 +61,9 @@ function App() {
 
   // Get coins
   const indexOfLastCoin = currentPage * coinsPerPage;
+  // console.log('indexOfLastCoin', indexOfLastCoin);
   const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
+  // console.log('indexOfFirstCoin', indexOfFirstCoin);
   const currentCoins = coins.slice(indexOfFirstCoin, indexOfLastCoin);
 
   // Change Page

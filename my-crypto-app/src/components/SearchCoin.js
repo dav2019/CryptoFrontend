@@ -13,7 +13,7 @@ const SearchCoin = ( { getQuery } )=>  {
 
     return (
         <section className='search'>
-            <form>
+            <form data-testid='searchCoin-1'>
                 <input
                 type='text'
                 className='form-control'
