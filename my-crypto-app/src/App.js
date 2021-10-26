@@ -29,7 +29,7 @@ function App() {
       try {
       const res = await axios.get(`${process.env.REACT_APP_API}`);
       setCoins(res.data);
-      // console.log(res.data);
+      console.log(res.data);
       setLoading(false);
       } catch(error) {
         alert('Error Error');
@@ -61,9 +61,7 @@ function App() {
 
   // Get coins
   const indexOfLastCoin = currentPage * coinsPerPage;
-  // console.log('indexOfLastCoin', indexOfLastCoin);
   const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
-  // console.log('indexOfFirstCoin', indexOfFirstCoin);
   const currentCoins = coins.slice(indexOfFirstCoin, indexOfLastCoin);
 
   // Change Page
