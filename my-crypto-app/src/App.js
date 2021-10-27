@@ -80,7 +80,7 @@ function App() {
   return (
     <Container fluid>
       <Row>
-        <Navbar bg='dark' variant='dark' expand='lg'>
+        <Navbar bg='dark' variant='dark' expand='lg'>;
           <Container fluid>
           <Navbar.Brand href='#home'>Cryptocurrency</Navbar.Brand>
             <Nav className='me-auto'>
