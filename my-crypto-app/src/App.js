@@ -71,7 +71,8 @@ function App() {
   // Pagination Set Up
   const indexOfLastCoin = currentPage * coinsPerPage;
   const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
-  const currentCoins = coins.slice(indexOfFirstCoin, indexOfLastCoin);
+  // Allows user to search a coin while on a different page and shows different coins for every page number
+  const currentCoins = (getQuery) ? coins : coins.slice(indexOfFirstCoin, indexOfLastCoin);
 
   // Change Page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
