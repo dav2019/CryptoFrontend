@@ -1,10 +1,10 @@
 // import CoinsLayout from "./CoinsLayout";
-import { Spinner, Table } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 const Coins = ({ coins, loading }) => {
     if(loading) {
-        return <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
+        return <Spinner animation='border' variant='primary' role='status' size='lg'>
+                  <span className='visually-hidden'>Loading...</span>
                 </Spinner>;
     }
 
@@ -12,7 +12,6 @@ const Coins = ({ coins, loading }) => {
         <>
         {coins.map((coin) => {
           return (
-            <Table responsive>
               <tbody>
                 <tr>
                     <td><img src={coin.image} alt='crypto' width={171} height={180} thumbnail/></td>
@@ -21,7 +20,6 @@ const Coins = ({ coins, loading }) => {
                     <td>${coin.current_price}</td>
                 </tr>
               </tbody>
-          </Table>
           )
         })}
       </> 

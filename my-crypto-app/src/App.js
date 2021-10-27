@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, Table} from 'react-bootstrap';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Coins from './components/Coins';
@@ -10,26 +10,18 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [coinsPerPage, setCoinsPerPage] = useState(10);
-  const [searchInput, setSearchInput] = useState('');
+  const [coinsPerPage] = useState(10);
+  const [getQuery, setGetQuery] = useState('');
   
-
-  // useEffect(() => {
-  //   axios.get(`${process.env.REACT_APP_API}`)
-  //   .then(res => {
-  //     setCoins(res.data)
-  //     // console.log(res.data)
-  //   })
-  //   .catch(error => alert('API is broken!'));
-  // })
 
   useEffect(() => {
     const fetchCoins = async () => {
+      const searchInput = (getQuery) ? `&ids=${getQuery.toLowerCase()}` : '';
       setLoading(true);
       try {
-      const res = await axios.get(`${process.env.REACT_APP_API}`);
+      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud${searchInput}&order=market_cap_desc&per_page=100&page=1&sparkline=false`);
       setCoins(res.data);
-      console.log(res.data);
+      // console.log(res.data);
       setLoading(false);
       } catch(error) {
         alert('Error Error');
@@ -38,28 +30,45 @@ function App() {
     }
 
     fetchCoins();
-  }, []);
+  }, [getQuery]);
 
-  useEffect(() => {
-    const search = async () => {
-      setLoading(true);
-      try {
-      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&ids=${searchInput.toLowerCase()}&order=market_cap_desc&per_page=100&page=1&sparkline=false`);
-      setCoins(res.data);
-      // console.log(res.data);
-      // console.log(searchInput);
-      setLoading(false);
-      } catch(error) {
-        alert('Error Error');
-        console.log("error", error);
-      }
-    }
+  // useEffect(() => {
+  //   const fetchCoins = async () => {
+  //     setLoading(true);
+  //     try {
+  //     const res = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&per_page=100&page=1&sparkline=false');
+  //     setCoins(res.data);
+  //     // console.log(res.data);
+  //     setLoading(false);
+  //     } catch(error) {
+  //       alert('Error Error');
+  //       console.log("error", error);
+  //     }
+  //   }
 
-    search();
-  }, [searchInput]);
+  //   fetchCoins();
+  // }, []);
+
+  // useEffect(() => {
+  //   const search = async () => {
+  //     setLoading(true);
+  //     try {
+  //     const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&ids=${searchInput.toLowerCase()}&order=market_cap_desc&per_page=100&page=1&sparkline=false`);
+  //     setCoins(res.data);
+  //     // console.log(res.data);
+  //     // console.log(searchInput);
+  //     setLoading(false);
+  //     } catch(error) {
+  //       alert('Error Error');
+  //       console.log("error", error);
+  //     }
+  //   }
+
+  //   search();
+  // }, [searchInput]);
 
 
-  // Get coins
+  // Pagination Set Up
   const indexOfLastCoin = currentPage * coinsPerPage;
   const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
   const currentCoins = coins.slice(indexOfFirstCoin, indexOfLastCoin);
@@ -68,13 +77,36 @@ function App() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-        <Col><header className="header"> Cryptocurrency</header></Col>
-        <Col><SearchCoin getQuery={(q) => setSearchInput(q)}/></Col>
+        <Navbar bg='dark' variant='dark' expand='lg'>
+          <Container fluid>
+          <Navbar.Brand href='#home'>Cryptocurrency</Navbar.Brand>
+            <Nav className='me-auto'>
+            <Nav.Link href='#home'>Trending</Nav.Link>
+          </Nav>
+          <SearchCoin getQuery={(q) => setGetQuery(q)}/>
+          </Container>
+        </Navbar>
       </Row>
-          <Coins coins={currentCoins} loading={loading} />
-      <Pagination coinsPerPage={coinsPerPage} totalCoins={coins.length} paginate={paginate}/>
+      <Row>
+        <Col>
+          <Table striped border hover responsive='sm'>
+            <thead>
+              <tr>
+                <th>Crypto Image</th>
+                <th>Crypto Name</th>
+                <th>Crypto Symbol</th>
+                <th>Current Price $AUD</th>
+              </tr>
+            </thead>
+            <Coins coins={currentCoins} loading={loading} />
+          </Table>
+        </Col>
+      </Row>
+      <Row>
+        <Pagination coinsPerPage={coinsPerPage} totalCoins={coins.length} paginate={paginate}/>
+      </Row>
     </Container>
   );
 }
